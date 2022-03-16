@@ -46,6 +46,12 @@ func (s *SwitchService) run(ctx context.Context) error {
 	return http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", s.port), mux)
 }
 
+func (s *SwitchService) SetState(state bool) {
+	s.mu.Lock()
+	s.state = state
+	s.mu.Unlock()
+}
+
 func StartSwitchServices(ctx context.Context, services ...*SwitchService) error {
 	for _, s := range services {
 		s := s
